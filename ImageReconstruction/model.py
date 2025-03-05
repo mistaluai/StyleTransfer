@@ -4,7 +4,7 @@ import torchvision.models as models
 
 class CustomVGG19(nn.Module):
 
-    def __init__(self, reconstruction_layers=None):
+    def __init__(self, reconstruction_layer='conv4_2'):
         super().__init__()
         self.model = self.__prepare_model('../PretrainedModels/vgg19-dcbb9e9d.pth')
 
@@ -27,10 +27,10 @@ class CustomVGG19(nn.Module):
             'conv5_4': 34
         }
 
-        self.reconstruction_layers = [conv_layers[layer] for layer in reconstruction_layers]
+        self.reconstruction_layer = conv_layers[reconstruction_layer]
         print(self.model)
-        print(reconstruction_layers)
-        print(self.reconstruction_layers)
+        print(reconstruction_layer)
+        print(self.reconstruction_layer)
 
 
     def __prepare_model(self, model_path=None):
