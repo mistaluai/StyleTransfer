@@ -28,10 +28,6 @@ class CustomVGG19(nn.Module):
         }
 
         self.reconstruction_layer = conv_layers[reconstruction_layer]
-        print(self.model)
-        print(reconstruction_layer)
-        print(self.reconstruction_layer)
-
 
     def __prepare_model(self, model_path=None):
         model = models.vgg19()
@@ -42,7 +38,9 @@ class CustomVGG19(nn.Module):
         return model
 
     def forward(self, x):
-        pass
+        model = self.model #for code readability
 
-
-CustomVGG19 = CustomVGG19()
+        for i, layer in enumerate(model.children()):
+            x = layer(x)
+            if i == self.reconstruction_layer:
+                return x
