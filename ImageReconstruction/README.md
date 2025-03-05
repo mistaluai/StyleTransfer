@@ -1,4 +1,4 @@
-# Neural Style Transfer - Feature Visualization
+# Reconstructing Images from CNN feature maps
 
 ## Overview
 This portion of the project implements feature visualization from the paper *A Neural Algorithm of Artistic Style*. Specifically, it reconstructs an image from its feature representations at different layers of a VGG-19 network. The goal is to understand how different layers encode image information, with deeper layers capturing higher-level features.
