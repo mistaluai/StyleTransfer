@@ -1,4 +1,4 @@
-# Neural Style Transfer - Feature Visualization
+# Reconstructing Images from CNN feature maps
 
 ## Overview
 This portion of the project implements feature visualization from the paper *A Neural Algorithm of Artistic Style*. Specifically, it reconstructs an image from its feature representations at different layers of a VGG-19 network. The goal is to understand how different layers encode image information, with deeper layers capturing higher-level features.
@@ -20,7 +20,11 @@ where:
 
 The gradient of the content loss with respect to the activations in layer $( l)$ is given by:
 
-$\frac{\partial L_{content}}{\partial F^l_{ij}} = \begin{cases} (F^l - P^l)_{ij} & \text{if } F^l_{ij} > 0 \\ 0 & \text{if } F^l_{ij} < 0 \end{cases}$
+
+```math
+\frac{\partial L_{content}}{\partial F^l_{ij}} = \begin{cases} (F^l - P^l)_{ij} & \text{if } F^l_{ij} > 0 \\ 0 & \text{if } F^l_{ij} < 0 \end{cases}
+```
+
 
 This allows us to iteratively update the image $( x)$ to match the original image $( p )$ at the selected layer.
 
