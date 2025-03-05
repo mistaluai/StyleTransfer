@@ -32,8 +32,8 @@ This allows us to iteratively update the image $( x)$ to match the original imag
 ## Results
 Below are the reconstructed images from different layers of VGG-19, showing how each layer captures different levels of abstraction:
 
-![reconstruction_output.tiff](reconstruction_outputs/reconstruction_output.tiff)
+![reconstruction_output.tiff](reconstruction_outputs/reconstruction_output.png)
 
-![reconstruction_output2.tiff](reconstruction_outputs/reconstruction_output2.tiff)  
+![reconstruction_output2.tiff](reconstruction_outputs/reconstruction_output2.png)  
 
-![reconstruction_output_50step.tiff](reconstruction_outputs/reconstruction_output_50step.tiff)
+![reconstruction_output_50step.tiff](reconstruction_outputs/reconstruction_output_50step.png)
