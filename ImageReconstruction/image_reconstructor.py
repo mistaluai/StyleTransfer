@@ -7,10 +7,10 @@ from ImageReconstruction.model import CustomVGG19
 
 
 class ImageReconstructor:
-    def __init__(self, device):
+    def __init__(self, device, is_local, reconstruction_layer='conv4_2'):
         self.device = device
         print(f'Initialized ImageReconstructor with device {self.device}')
-        self.model = CustomVGG19(device)
+        self.model = CustomVGG19(device, is_local=is_local, reconstruction_layer=reconstruction_layer)
 
 
     def reconstruct(self, target_image, result_image, epochs=100):
@@ -30,6 +30,7 @@ class ImageReconstructor:
                 return loss
 
             optimizer.step(closure)
+            outputs.append(result_image.clone().detach())
             pbar.set_description(desc=f'Reconstruction [result mean:{result_image.mean().item():0.4f}|target mean:{target_image.mean().item():0.4f}]')
 
         return result_image, outputs
