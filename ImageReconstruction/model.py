@@ -4,11 +4,14 @@ import torchvision.models as models
 
 class CustomVGG19(nn.Module):
 
-    def __init__(self, device , reconstruction_layer='conv4_2'):
+    def __init__(self, device , reconstruction_layer, is_local=False):
         super().__init__()
         self.device = device
         print(f'Initialized Model with device {self.device}')
-        self.model = self.__prepare_model('../PretrainedModels/vgg19-dcbb9e9d.pth')
+        if is_local:
+            self.model = self.__prepare_model('../PretrainedModels/vgg19-dcbb9e9d.pth')
+        else:
+            self.model = self.__prepare_model()
 
         conv_layers = {
             'conv1_1': 0,
@@ -32,9 +35,11 @@ class CustomVGG19(nn.Module):
         self.reconstruction_layer = conv_layers[reconstruction_layer]
 
     def __prepare_model(self, model_path=None):
-        model = models.vgg19()
         if model_path is not None:
+            model = models.vgg19()
             model.load_state_dict(torch.load(model_path))
+        else:
+            model = models.vgg19(weights='IMAGENET1K_V1')
         # model = nn.Sequential(*list(model.children())[:-2])
         model = model.features
         return model.to(self.device)
