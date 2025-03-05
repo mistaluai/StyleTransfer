@@ -10,10 +10,10 @@ device = 'mps'
 processor = ImageProcessor(device)
 
 target_image = processor.load_image('./images/ford.jpg')
-result_image = torch.rand(target_image.size()).to(device)
+result_image = torch.rand(target_image.size(), requires_grad=True, device=device)
 
 reconstructor = ImageReconstructor(device)
 
-result_image, outputs = reconstructor.reconstruct(target_image, result_image)
+result_image, outputs = reconstructor.reconstruct(target_image, result_image, epochs=10)
 
 plotter = ImagePlotter({'noise': processor.tensor_to_image(result_image), 'target_image': processor.tensor_to_image(target_image)})
