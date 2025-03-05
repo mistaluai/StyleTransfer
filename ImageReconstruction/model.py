@@ -4,9 +4,10 @@ import torchvision.models as models
 
 class CustomVGG19(nn.Module):
 
-    def __init__(self,device , reconstruction_layer='conv4_2'):
+    def __init__(self, device , reconstruction_layer='conv4_2'):
         super().__init__()
         self.device = device
+        print(f'Initialized Model with device {self.device}')
         self.model = self.__prepare_model('../PretrainedModels/vgg19-dcbb9e9d.pth')
 
         conv_layers = {

@@ -5,6 +5,7 @@ import torch
 class ImageProcessor:
     def __init__(self, device, size=224):
         self.device = device
+        print(f'Initialized ImageProcessor with device {self.device}')
         self.size = size
 
     def __image_transforms(self, image):
