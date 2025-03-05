@@ -18,9 +18,8 @@ class ImageReconstructor:
         optimizer = optim.LBFGS([result_image])
         model, device = self.model, self.device
         outputs = []
-        for epoch in tqdm(range(epochs), desc='Reconstruction'):
-
-
+        pbar = tqdm(range(epochs), desc='Reconstruction', unit='epoch')
+        for epoch in pbar:
 
             def closure():
                 optimizer.zero_grad()
@@ -31,6 +30,7 @@ class ImageReconstructor:
                 return loss
 
             optimizer.step(closure)
+            pbar.set_description(desc=f'Reconstruction [result mean:{result_image.mean().item():0.4f}|target mean:{target_image.mean().item():0.4f}]')
 
         return result_image, outputs
 
