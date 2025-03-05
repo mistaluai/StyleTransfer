@@ -4,8 +4,9 @@ import torchvision.models as models
 
 class CustomVGG19(nn.Module):
 
-    def __init__(self, reconstruction_layer='conv4_2'):
+    def __init__(self,device , reconstruction_layer='conv4_2'):
         super().__init__()
+        self.device = device
         self.model = self.__prepare_model('../PretrainedModels/vgg19-dcbb9e9d.pth')
 
         conv_layers = {
@@ -35,7 +36,7 @@ class CustomVGG19(nn.Module):
             model.load_state_dict(torch.load(model_path))
         # model = nn.Sequential(*list(model.children())[:-2])
         model = model.features
-        return model
+        return model.to(self.device)
 
     def forward(self, x):
         model = self.model #for code readability
