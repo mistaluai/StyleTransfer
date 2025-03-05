@@ -20,7 +20,11 @@ where:
 
 The gradient of the content loss with respect to the activations in layer $( l)$ is given by:
 
-$\frac{\partial L_{content}}{\partial F^l_{ij}} = \begin{cases} (F^l - P^l)_{ij} & \text{if } F^l_{ij} > 0 \\ 0 & \text{if } F^l_{ij} < 0 \end{cases}$
+
+```math
+\frac{\partial L_{content}}{\partial F^l_{ij}} = \begin{cases} (F^l - P^l)_{ij} & \text{if } F^l_{ij} > 0 \\ 0 & \text{if } F^l_{ij} < 0 \end{cases}
+```
+
 
 This allows us to iteratively update the image $( x)$ to match the original image $( p )$ at the selected layer.
 
