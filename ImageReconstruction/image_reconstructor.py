@@ -17,7 +17,7 @@ class ImageReconstructor:
 
 
     def reconstruct(self, target_image, result_image, epochs=100):
-        result_image.requires_grad = True
+        target_image = target_image.detach()
         optimizer = optim.LBFGS([result_image])
         model, device = self.model, self.device
         outputs = []
