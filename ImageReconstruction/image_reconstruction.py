@@ -1,8 +1,6 @@
-from platform import processor
-
 import torch
-from ImageReconstruction.image_plotter import ImagePlotter
-from ImageReconstruction.image_processor import ImageProcessor
+from utils.image_plotter import ImagePlotter
+from utils.image_processor import ImageProcessor
 from ImageReconstruction.image_reconstructor import ImageReconstructor
 
 device = 'mps'
@@ -13,7 +11,7 @@ result_image = torch.rand(target_image.size(), requires_grad=True, device=device
 
 reconstructor = ImageReconstructor(device, is_local=True, reconstruction_layer='conv3_3')
 
-result_image, outputs = reconstructor.reconstruct(target_image, result_image, epochs=100)
+result_image, outputs = reconstructor.reconstruct(target_image, result_image, epochs=10)
 images = {
 'Generated Image': processor.tensor_to_image(result_image),
 'Ground Truth Image': processor.tensor_to_image(target_image)
