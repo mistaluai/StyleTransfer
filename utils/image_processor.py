@@ -10,7 +10,7 @@ class ImageProcessor:
 
     def __image_transforms(self, image):
         transforms = v2.Compose([
-            v2.Resize(self.size),
+            v2.Resize((self.size, self.size)),
             v2.ToImage(),
             v2.ToDtype(torch.float32, scale=True)
         ])
