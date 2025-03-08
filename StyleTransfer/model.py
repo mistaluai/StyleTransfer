@@ -35,7 +35,6 @@ class StyleTransfer(nn.Module):
         }
         self.content_layer = self.conv_layers[content_layer]
         self.style_layers = [self.conv_layers[layer] for layer in style_layers]
-        print(self.content_layer, self.style_layers)
 
 
 
@@ -46,7 +45,7 @@ class StyleTransfer(nn.Module):
         else:
             model = models.vgg19(weights='IMAGENET1K_V1')
         model = model.features
-        model = nn.Sequential(Normalization(), *list(model.children())[:])
+        model = nn.Sequential(Normalization(device=self.device), *list(model.children())[:])
         return model.to(self.device).eval()
 
     def forward(self, x):
