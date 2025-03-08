@@ -1,3 +1,5 @@
+import torch
+
 from ImageReconstruction.content_loss import ContentLoss
 from StyleReconstruction.style_loss import StyleLoss
 from StyleTransfer.model import StyleTransfer
@@ -26,6 +28,9 @@ class StyleTransferer():
         pbar = tqdm(range(epochs), desc='Styling', unit='epoch')
         for epoch in pbar:
             def closure():
+                with torch.no_grad():
+                    result_image.clamp_(0, 1)
+
                 optimizer.zero_grad()
                 target_content_feature_map, _ = model(content)
                 _, style_feature_maps = model(style)
@@ -40,5 +45,8 @@ class StyleTransferer():
 
             optimizer.step(closure)
             outputs.append(result_image.clone().detach())
+
+        with torch.no_grad():
+            result_image.clamp_(0, 1)
 
         return result_image, outputs
