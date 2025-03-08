@@ -13,7 +13,7 @@ result_style = torch.rand(target_style.size(), requires_grad=True, device=device
 
 reconstructor = StyleReconstructor(device=device, is_local=True)
 
-result_style, outputs = reconstructor.reconstruct(target_style, result_style, epochs=10)
+result_style, outputs = reconstructor.reconstruct(target_style, result_style, epochs=20)
 
 images = {
 'Generated Style': processor.tensor_to_image(result_style),
@@ -22,8 +22,8 @@ images = {
 
 
 for i, image in enumerate(outputs):
-    if (i+1) % 10 == 0:
+    if (i+1) % 2 == 0:
         s = f'Generation step {i+1}'
         images[s] = processor.tensor_to_image(image)
-
-plotter = ImagePlotter(images)
+name = 'StyleReconstruction_StarryNight'
+plotter = ImagePlotter(data=images, gif_data=outputs, output_path='./reconstruction_outputs', name=name)

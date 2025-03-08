@@ -9,9 +9,9 @@ processor = ImageProcessor(device)
 target_image = processor.load_image('./images/ford.jpg')
 result_image = torch.rand(target_image.size(), requires_grad=True, device=device)
 
-reconstructor = ImageReconstructor(device, is_local=True, reconstruction_layer='conv3_3')
+reconstructor = ImageReconstructor(device, is_local=True, reconstruction_layer='conv2_1')
 
-result_image, outputs = reconstructor.reconstruct(target_image, result_image, epochs=10)
+result_image, outputs = reconstructor.reconstruct(target_image, result_image, epochs=20)
 images = {
 'Generated Image': processor.tensor_to_image(result_image),
 'Ground Truth Image': processor.tensor_to_image(target_image)
@@ -23,4 +23,5 @@ for i, image in enumerate(outputs):
         s = f'Generation step {i+1}'
         images[s] = processor.tensor_to_image(image)
 
-plotter = ImagePlotter(images)
+name = 'ContentReconstruction_FordCar'
+plotter = ImagePlotter(data=images, gif_data=outputs, output_path='./reconstruction_outputs', name=name)
