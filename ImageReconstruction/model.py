@@ -4,7 +4,7 @@ import torchvision.models as models
 
 class ContentVGG19(nn.Module):
 
-    def __init__(self, device , reconstruction_layer, is_local=False):
+    def __init__(self, device , reconstruction_layer='conv4_2', is_local=False):
         super().__init__()
         self.device = device
         print(f'Initialized Model with device {self.device}')
