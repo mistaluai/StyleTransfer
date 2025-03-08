@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torchvision.models as models
 
-class CustomVGG19(nn.Module):
+class ContentVGG19(nn.Module):
 
     def __init__(self, device , reconstruction_layer, is_local=False):
         super().__init__()
@@ -13,7 +13,7 @@ class CustomVGG19(nn.Module):
         else:
             self.model = self.__prepare_model()
 
-        conv_layers = {
+        self.conv_layers = {
             'conv1_1': 0,
             'conv1_2': 2,
             'conv2_1': 5,
@@ -32,7 +32,7 @@ class CustomVGG19(nn.Module):
             'conv5_4': 34
         }
 
-        self.reconstruction_layer = conv_layers[reconstruction_layer]
+        self.reconstruction_layer = self.conv_layers[reconstruction_layer]
 
     def __prepare_model(self, model_path=None):
         if model_path is not None:
