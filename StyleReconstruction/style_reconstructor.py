@@ -38,3 +38,4 @@ class StyleReconstructor:
             outputs.append(result_image.clone().detach())
             pbar.set_description(
                 desc=f'Reconstruction [result mean:{result_image.mean().item():0.4f}|target mean:{target_image.mean().item():0.4f}]')
+        return result_image, outputs
