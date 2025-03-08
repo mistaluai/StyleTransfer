@@ -28,8 +28,7 @@ class StyleTransferer():
         pbar = tqdm(range(epochs), desc='Styling', unit='epoch')
         for epoch in pbar:
             def closure():
-                with torch.no_grad():
-                    result_image.clamp_(0, 1)
+                self.clamp(result_image)
 
                 optimizer.zero_grad()
                 target_content_feature_map, _ = model(content)
@@ -43,10 +42,18 @@ class StyleTransferer():
                 loss.backward()
                 return loss
 
+            self.clamp(result_image)
             optimizer.step(closure)
             outputs.append(result_image.clone().detach())
 
-        with torch.no_grad():
-            result_image.clamp_(0, 1)
+        self.clamp(result_image)
 
         return result_image, outputs
+
+
+    def clamp(self, image):
+
+        with torch.no_grad():
+            image.clamp_(0, 1)
+
+        return image
