@@ -1,6 +1,10 @@
 import torch
 import torch.nn as nn
 import torchvision.models as models
+
+from StyleTransfer.normalizer import Normalization
+
+
 class StyleTransfer(nn.Module):
     def __init__(self, device , content_layer='conv4_2', style_layers=['conv1_1', 'conv2_1', 'conv3_1', 'conv4_1', 'conv5_1'], is_local=False):
         super().__init__()
@@ -11,25 +15,27 @@ class StyleTransfer(nn.Module):
         else:
             self.model = self.__prepare_model()
         self.conv_layers = {
-            'conv1_1': 0,
-            'conv1_2': 2,
-            'conv2_1': 5,
-            'conv2_2': 7,
-            'conv3_1': 10,
-            'conv3_2': 12,
-            'conv3_3': 14,
-            'conv3_4': 16,
-            'conv4_1': 19,
-            'conv4_2': 21,
-            'conv4_3': 23,
-            'conv4_4': 25,
-            'conv5_1': 28,
-            'conv5_2': 30,
-            'conv5_3': 32,
-            'conv5_4': 34
+            'norm':0,
+            'conv1_1': 1,
+            'conv1_2': 3,
+            'conv2_1': 6,
+            'conv2_2': 8,
+            'conv3_1': 11,
+            'conv3_2': 13,
+            'conv3_3': 15,
+            'conv3_4': 17,
+            'conv4_1': 20,
+            'conv4_2': 22,
+            'conv4_3': 24,
+            'conv4_4': 26,
+            'conv5_1': 29,
+            'conv5_2': 31,
+            'conv5_3': 33,
+            'conv5_4': 35
         }
         self.content_layer = self.conv_layers[content_layer]
         self.style_layers = [self.conv_layers[layer] for layer in style_layers]
+        print(self.content_layer, self.style_layers)
 
 
 
@@ -40,6 +46,7 @@ class StyleTransfer(nn.Module):
         else:
             model = models.vgg19(weights='IMAGENET1K_V1')
         model = model.features
+        model = nn.Sequential(Normalization(), *list(model.children())[:])
         return model.to(self.device).eval()
 
     def forward(self, x):
