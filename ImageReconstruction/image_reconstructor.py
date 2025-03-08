@@ -3,14 +3,17 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 from tqdm import tqdm
-from ImageReconstruction.model import CustomVGG19
+
+from ImageReconstruction.content_loss import ContentLoss
+from ImageReconstruction.model import ContentVGG19
 
 
 class ImageReconstructor:
     def __init__(self, device, is_local, reconstruction_layer='conv4_2'):
         self.device = device
         print(f'Initialized ImageReconstructor with device {self.device}')
-        self.model = CustomVGG19(device, is_local=is_local, reconstruction_layer=reconstruction_layer)
+        self.model = ContentVGG19(device, is_local=is_local, reconstruction_layer=reconstruction_layer)
+        self.loss = ContentLoss()
 
 
     def reconstruct(self, target_image, result_image, epochs=100):
@@ -25,7 +28,7 @@ class ImageReconstructor:
                 optimizer.zero_grad()
                 target_features = model(target_image)
                 result_features = model(result_image)
-                loss = 0.5 * F.mse_loss(target_features, result_features)
+                loss = self.loss(target_features, result_features)
                 loss.backward()
                 return loss
 
